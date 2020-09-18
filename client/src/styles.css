@@ -21,6 +21,7 @@ h1 {
 }
 
 .table {
+  margin-bottom: 75px;
   table-layout: fixed;
 }
 
