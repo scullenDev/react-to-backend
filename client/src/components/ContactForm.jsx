@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import ErrorAlert from "./ErrorAlert";
+import ErrorContext from "../utils/ErrorContext";
+// ! ^^^ Note how we import our context directly, along with the useContext hook.
 
-const ContactForm = ({
-  contact: { firstName, lastName, phoneNumber, email },
-  error: { isError, message, type },
-  handleInputChange,
-  addContact,
-}) => {
+const ContactForm = ({ contact: { firstName, lastName, phoneNumber, email }, handleInputChange, addContact }) => {
   const history = useHistory();
+  // ! We can then tap into the values stored in our context via our useContext hook!
+  const { isError } = useContext(ErrorContext);
 
   return (
     <Form onSubmit={(e) => addContact(e)}>
-      {isError && <ErrorAlert type={type}>{message}</ErrorAlert>}
+      {isError && <ErrorAlert />}
       <FormGroup>
         <Label for="firstName">First Name:</Label>
         <Input
