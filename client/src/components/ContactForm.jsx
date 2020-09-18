@@ -1,37 +1,51 @@
 import React, { useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import API from "../utils/API";
 import ErrorAlert from "./ErrorAlert";
 import ErrorContext from "../utils/ErrorContext";
 // ! ^^^ Note how we import our context directly, along with the useContext hook.
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
   const history = useHistory();
 
   // ! We can then tap into the values stored in our context via our useContext hook!
-  const { isError } = useContext(ErrorContext);
+  const { isError, setError } = useContext(ErrorContext);
 
-  // ! Using the useRef hook to access the DOM directly (or less commonly used to persist a mutable value throughout the component's entire life)
+  // ! Using the useRef hook to access the DOM directly (or less commonly used to persist a mutable value throughout the component's entire life).
   const fNameRef = useRef();
   const lNameRef = useRef();
   const typeRef = useRef();
   const phoneRef = useRef();
   const emailRef = useRef();
 
-  const addNewContact = (e) => {
+  // ! Since we're no longer updating the values from this form in the 'Add a Contact' page state in real-time, we can construct the object of data for our new contact here. Upon click we access each value individually using our ref and build it into the object. Once the object is ready, we send it off to the back-end for insertion into our db.
+
+  const addContact = (e) => {
     e.preventDefault();
-    addContact({
+    API.addContact({
       firstName: fNameRef.current.value,
       lastName: lNameRef.current.value,
       type: typeRef.current.value,
       phoneNumber: phoneRef.current.value,
       email: emailRef.current.value,
-    });
+    })
+      .then(() => {
+        console.log("hmm?");
+        history.push("/contacts");
+      })
+      .catch((err) => {
+        setError({
+          isError: true,
+          message: err.response.data.join(", "),
+          type: "danger",
+        });
+      });
   };
 
-  // ! Since we're using the useRef hook to handle our form values, our form is "uncontrolled", and behaves more like a pre-React HTML form, in that the values the user types in the form fields is not dealt with upon every keypress, and is instead only retrieved upon an event like a form submission... using useRef for forms instead of a controlled form makes it more difficult to do things like running autocomplete functionality, validating form input as the user types, etc.
+  // ! Since we're using the useRef hook to handle our form values, our form is "uncontrolled". It behaves more like a pre-React HTML form, in that the values the user types in the form fields are not stored in state upon every keypress, and are instead only retrieved upon an event like a form submission... using useRef for forms instead of a controlled form makes it more difficult to do things like running autocomplete functionality, validating form input as the user types, etc.
   return (
-    <Form onSubmit={(e) => addNewContact(e)}>
+    <Form onSubmit={(e) => addContact(e)}>
       {isError && <ErrorAlert />}
       <FormGroup>
         <Label for="firstName">First Name:</Label>

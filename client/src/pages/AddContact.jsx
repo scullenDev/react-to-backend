@@ -1,38 +1,20 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import API from "../utils/API";
 import ErrorContext from "../utils/ErrorContext";
 import ContactForm from "../components/ContactForm";
 
 const AddContact = () => {
-  const history = useHistory();
-
+  // ! Technically, thanks to the refactor of the form using useRef and the relocation of the addContact method, it's not really necessary to put the state for error here. But I'm keeping it in place to demonstrate an example of useContext.
   const [error, setError] = useState({
     isError: false,
     message: "",
     type: "success",
   });
 
-  const addContact = (contact) => {
-    console.log(contact);
-    API.addContact(contact)
-      .then(() => {
-        history.push("/contacts");
-      })
-      .catch((err) => {
-        setError({
-          isError: true,
-          message: err.response.data.join(", "),
-          type: "danger",
-        });
-      });
-  };
-
-  // ! Thanks to our ErrorContext Provider, any components nested inside (including all descendants of the immediately-nested components) will have access to the values provided. Note how the provided values are often linked to state value(s) in the component containing the Provider. Now that we have a Context Provider giving all our nested components access to the error state values, there's no need to drill the props down to get them to the correct nested components!
+  // ! Thanks to our ErrorContext Provider, any components nested inside (including all descendants of the immediately-nested components) will have access to the values provided. Note how the provided values are often linked to state value(s) in the component containing the Provider. Now that we have a Context Provider giving all our nested components access to the error state values/methods, there's no need to drill the props down to get them to the correct nested components! Note that it is best practice to pass the Context Provider a value that closely mimics (in structure and type) the value(s) in your Context.
   return (
-    <ErrorContext.Provider value={error}>
+    <ErrorContext.Provider value={{ ...error, setError }}>
       <h1 className="mt-4 mb-4">Add a Contact:</h1>
-      <ContactForm addContact={addContact} />
+      <ContactForm />
     </ErrorContext.Provider>
   );
 };
