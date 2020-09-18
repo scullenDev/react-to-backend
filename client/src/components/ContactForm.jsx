@@ -57,7 +57,10 @@ const ContactForm = () => {
       </FormGroup>
       <FormGroup>
         <Label for="type">Contact Type:</Label>
-        <Input type="select" id="type" innerRef={typeRef}>
+        <Input type="select" id="type" innerRef={typeRef} defaultValue="disabled">
+          <option value="disabled" disabled="disabled">
+            Select a Contact Type
+          </option>
           <option value="Personal">Personal</option>
           <option value="Business">Business</option>
         </Input>

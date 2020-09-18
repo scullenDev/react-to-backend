@@ -51,7 +51,7 @@ const Contacts = () => {
           defaultValue="disabled"
         >
           <option value="disabled" disabled="disabled">
-            Select Category
+            Filter by Type
           </option>
           <option value="">All</option>
           <option value="Personal">Personal</option>

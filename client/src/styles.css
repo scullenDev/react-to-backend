@@ -23,6 +23,7 @@ h1 {
 .table {
   margin-bottom: 75px;
   table-layout: fixed;
+  margin-bottom: 75px;
 }
 
 .table.table-hover tbody tr:hover {
