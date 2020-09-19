@@ -1,4 +1,4 @@
-# MERN (MySQL) Stack - Connecting the Front to the Back Starter
+# MERN (MySQL) Stack - Connecting the Front to the Back
 
 ## A little bit of setup is necessary:
 
