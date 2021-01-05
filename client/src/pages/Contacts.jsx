@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useReducer } from "react";
-import { useHistory } from "react-router-dom";
-import { FormGroup, Label, Input, Button } from "reactstrap";
-import API from "../utils/API";
-import { ContactTable, ContactRow } from "../components/ContactTable";
+import React, { useState, useEffect, useReducer } from 'react';
+import { useHistory } from 'react-router-dom';
+import { FormGroup, Label, Input, Button } from 'reactstrap';
+import API from '../utils/API';
+import { ContactTable, ContactRow } from '../components/ContactTable';
 
 const Contacts = () => {
   const history = useHistory();
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
   const [contacts, setContacts] = useState([]);
 
   const getContacts = () => {
@@ -33,7 +33,7 @@ const Contacts = () => {
           color="primary"
           onClick={(e) => {
             e.preventDefault();
-            history.push("/add");
+            history.push('/add');
           }}
         >
           Add New Contact
@@ -58,11 +58,13 @@ const Contacts = () => {
           <option value="Business">Business</option>
         </Input>
       </FormGroup>
-      <ContactTable>
-        {contacts.map((contact) => (
-          <ContactRow contact={contact} deleteContact={deleteContact} key={contact.id} />
-        ))}
-      </ContactTable>
+      {contacts.length && (
+        <ContactTable>
+          {contacts.map((contact) => (
+            <ContactRow contact={contact} deleteContact={deleteContact} key={contact.id} />
+          ))}
+        </ContactTable>
+      )}
     </>
   );
 };

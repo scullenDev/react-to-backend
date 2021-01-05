@@ -1,9 +1,9 @@
-import axios from "axios";
-const baseURL = process.env.API_PATH;
+import axios from 'axios';
+const baseURL = 'http://localhost:8080';
 
 export default {
   getContacts: (type) => {
-    const query = type ? "type=" + type : "";
+    const query = type ? 'type=' + type : '';
     return axios.get(`${baseURL}/api/contacts?${query}`);
   },
   deleteContact: (id) => {
